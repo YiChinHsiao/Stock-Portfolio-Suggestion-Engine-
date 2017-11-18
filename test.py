@@ -3,10 +3,27 @@ from flask import Flask, request
 application = Flask(__name__)
 
 @application.route('/')
-def test():
-	
+def test():	
 	money = request.args.get('money')
-	return money
+	if not money:
+		return 'The amount of money must be given'
+		
+	strategy = request.args.get('strategy')
+	if not strategy:
+		return 'Must choose at least 1 strategy'
+		
+	strategy = strategy.split(',')
+	if len(strategy) > 2:
+		return 'Cannot choose more than 2 strategies'
+		
+	try:
+		money = int(money)
+		if money >= 5000:
+			return str(money)
+		else:
+			return 'Money has to be at least 5000'
+	except ValueError:
+		return 'Input (money) is not an integer'
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0',debug = True)
