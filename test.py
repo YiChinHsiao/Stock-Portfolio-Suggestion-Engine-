@@ -2,17 +2,43 @@ from flask import Flask, request
 
 application = Flask(__name__)
 
+def getCompanyName(stock_name):
+	return 'test'
+
+def getFiveDaysEndPrice(stock_name):
+	return 'test'
+	
+def ethicalInvesting(money):
+	return 'test'
+	
+def growthInvesting(money):
+	return 'test'
+	
+def indexInvesting(money):
+	return 'test'
+	
+def qualityInvesting(money):
+	return 'test'
+	
+def valueInvesting(money):
+	return 'test'
+	
 @application.route('/')
 def test():	
 	money = request.args.get('money')
+	strategy = request.args.get('strategy')
+	
+	#return error if money is not given
 	if not money:
 		return 'The amount of money must be given'
 		
-	strategy = request.args.get('strategy')
+	#return error if strategy is not chosen	
 	if not strategy:
 		return 'Must choose at least 1 strategy'
 		
 	strategy = strategy.split(',')
+	
+	#return error if more than 2 strategies are chosen
 	if len(strategy) > 2:
 		return 'Cannot choose more than 2 strategies'
 		
@@ -20,8 +46,12 @@ def test():
 		money = int(money)
 		if money >= 5000:
 			return str(money)
+			
+		#return error if given money is less than 5000
 		else:
 			return 'Money has to be at least 5000'
+			
+	#return error if input money is not an integer
 	except ValueError:
 		return 'Input (money) is not an integer'
 
@@ -30,18 +60,5 @@ if __name__ == '__main__':
 
 # input  1. money   2. strategy (http://0.0.0.0:5000/?money=3000&strategy=1,2)
 
-# return error
-# money is not integer, money < 5000
-# strategy size > 2
-
-# return for each stock (JSON)
-# stock name, company name, 5 days end price, 5 days date, quantity, left money
-
-#API
-#1. getCompanyName()
-#2. get5DaysDateAndEndPrice()
-#3. runS1()
-#4. runS2()
-#5. runS3()
-#6. runS4()
-#7. runS5()
+# return each stock information (JSON)
+# stock name, company name, 5 days end price, 5 days date, quantity, (left money?)
