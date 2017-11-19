@@ -9,20 +9,56 @@ def getFiveDaysEndPrice(stock_name):
 	return 'test'
 	
 def ethicalInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
 	return 'test'
 	
 def growthInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
 	return 'test'
 	
 def indexInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
 	return 'test'
 	
 def qualityInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
 	return 'test'
 	
 def valueInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
 	return 'test'
-	
+
+#return json string (if 2 strategies: combine 2 json strings and then return)	
 @application.route('/')
 def test():	
 	money = request.args.get('money')
