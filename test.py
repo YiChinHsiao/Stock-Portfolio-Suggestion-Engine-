@@ -4,6 +4,63 @@ from stocks import *
 
 application = Flask(__name__)
 
+def getCompanyName(stock_name):
+	return 'test'
+
+def getFiveDaysEndPrice(stock_name):
+	return 'test'
+	
+def ethicalInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
+	return 'test'
+	
+def growthInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
+	return 'test'
+	
+def indexInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
+	return 'test'
+	
+def qualityInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
+	return 'test'
+	
+def valueInvesting(money):
+	com1 = getCompanyName()
+	com2 = getCompanyName()
+	com3 = getCompanyName()
+	info1 = getFiveDaysEndPrice()
+	info2 = getFiveDaysEndPrice()
+	info3 = getFiveDaysEndPrice()
+	#return json string
+	return 'test'
+
+#return json string (if 2 strategies: combine 2 json strings and then return)	
 @application.route('/')
 
 #Stocks defined in stocks.py
@@ -12,14 +69,19 @@ application = Flask(__name__)
 def test():	
 
 	money = request.args.get('money')
+	strategy = request.args.get('strategy')
+	
+	#return error if money is not given
 	if not money:
 		return 'The amount of money must be given'
 		
-	strategy = request.args.get('strategy')
+	#return error if strategy is not chosen	
 	if not strategy:
 		return 'Must choose at least 1 strategy'
 		
 	strategy = strategy.split(',')
+	
+	#return error if more than 2 strategies are chosen
 	if len(strategy) > 2:
 		return 'Cannot choose more than 2 strategies'
 		
@@ -34,6 +96,8 @@ def test():
 
 		else:
 			return 'Money has to be at least 5000'
+			
+	#return error if input money is not an integer
 	except ValueError:
 		return 'Input (money) is not an integer'
 
@@ -97,18 +161,5 @@ if __name__ == '__main__':
 
 # input  1. money   2. strategy (http://0.0.0.0:5000/?money=3000&strategy=1,2)
 
-# return error
-# money is not integer, money < 5000
-# strategy size > 2
-
-# return for each stock (JSON)
-# stock name, company name, 5 days end price, 5 days date, quantity, left money
-
-#API
-#1. getCompanyName()
-#2. get5DaysDateAndEndPrice()
-#3. runS1()
-#4. runS2()
-#5. runS3()
-#6. runS4()
-#7. runS5()
+# return each stock information (JSON)
+# stock name, company name, 5 days end price, 5 days date, quantity, (left money?)
