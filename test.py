@@ -1,71 +1,10 @@
 from flask import Flask, request
-from retrievestockinfo import getStockPrice
-from stocks import *
+from investingstrategies import *
 
-application = Flask(__name__)
-
-def getCompanyName(stock_name):
-	return 'test'
-
-def getFiveDaysEndPrice(stock_name):
-	return 'test'
-	
-def ethicalInvesting(money):
-	com1 = getCompanyName()
-	com2 = getCompanyName()
-	com3 = getCompanyName()
-	info1 = getFiveDaysEndPrice()
-	info2 = getFiveDaysEndPrice()
-	info3 = getFiveDaysEndPrice()
-	#return json string
-	return 'test'
-	
-def growthInvesting(money):
-	com1 = getCompanyName()
-	com2 = getCompanyName()
-	com3 = getCompanyName()
-	info1 = getFiveDaysEndPrice()
-	info2 = getFiveDaysEndPrice()
-	info3 = getFiveDaysEndPrice()
-	#return json string
-	return 'test'
-	
-def indexInvesting(money):
-	com1 = getCompanyName()
-	com2 = getCompanyName()
-	com3 = getCompanyName()
-	info1 = getFiveDaysEndPrice()
-	info2 = getFiveDaysEndPrice()
-	info3 = getFiveDaysEndPrice()
-	#return json string
-	return 'test'
-	
-def qualityInvesting(money):
-	com1 = getCompanyName()
-	com2 = getCompanyName()
-	com3 = getCompanyName()
-	info1 = getFiveDaysEndPrice()
-	info2 = getFiveDaysEndPrice()
-	info3 = getFiveDaysEndPrice()
-	#return json string
-	return 'test'
-	
-def valueInvesting(money):
-	com1 = getCompanyName()
-	com2 = getCompanyName()
-	com3 = getCompanyName()
-	info1 = getFiveDaysEndPrice()
-	info2 = getFiveDaysEndPrice()
-	info3 = getFiveDaysEndPrice()
-	#return json string
-	return 'test'
+application = Flask(__name__)	
 
 #return json string (if 2 strategies: combine 2 json strings and then return)	
 @application.route('/')
-
-#Stocks defined in stocks.py
-
-
 def test():	
 
 	money = request.args.get('money')
@@ -87,77 +26,33 @@ def test():
 		
 	try:
 		money = int(money)
-		if money >= 5000:
-			#return str(money)
-			print strategy
-			portfolio_info = []
-			remainmon = SuggestinEngine(money, strategy, portfolio_info)
-			return str(remainmon)
-
-		else:
+		#return error if input money is less than 5000
+		if money < 5000:
 			return 'Money has to be at least 5000'
 			
 	#return error if input money is not an integer
 	except ValueError:
 		return 'Input (money) is not an integer'
-
-def test2():	
-	money = 6000
-	strategy = [1,2]
-
-	portfolio_info = []
-	remainmon = SuggestinEngine(money, strategy, portfolio_info)
-	print remainmon
-
-	for Entry in portfolio_info:
-		Entry.printinfo()
-
-	return
-
-
-def SuggestinEngine(money, strategy, portfolio_info):
-
-	money_per_stgy = money / len(strategy)
-	print money_per_stgy
-
-	for stgy in strategy:
-
-		print stgy;
-		remain_money = RunStrategy(money_per_stgy, int(stgy), portfolio_info)
-		money_per_stgy = (money / len(strategy)) + remain_money
-
-	return remain_money
-
-def RunStrategy(money, strategy, portfolio_info):
-
-	money_per_stock = money / len(strategystocks[strategy])
-
-	for stock in strategystocks[strategy]:
-
-		portfolio_entry = PortfolioStockEntry(stock)
-		print stock
-		portfolio_entry.stockfullname = getStockPrice(stock, portfolio_entry.price, portfolio_entry.date)
-
-		print money_per_stock
-		portfolio_entry.quantity = int(money_per_stock / portfolio_entry.price[-1])
-
-		print portfolio_entry.price[-1]
-		print portfolio_entry.quantity
-
-		remain_cash = money_per_stock  - (portfolio_entry.price[-1] * portfolio_entry.quantity)
-		money_per_stock = (money / len(strategystocks[strategy])) + remain_cash
-
-		portfolio_entry.strategy = strategy
-
-		#Append the entry into a list
-		portfolio_info.append(portfolio_entry)
-
-	return remain_cash
-
+	
+	# input number of strategy is 1
+	if len(strategy) == 1:
+		if strategy == '1':
+			result = EthicalInvesting(money)
+		elif strategy == '2':
+			result = GrowthInvesting(money)
+		elif strategy == '3':
+			result = IndexInvesting(money)
+		elif strategy == '4':
+			result = QualityInvesting(money)
+		else:
+			result = ValueInvesting(money)
+		return json.dumps(result)
+	# input number of strategy is 2
+	else:
+		return 'try later'		
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0',debug = True)
-    #test2()
 
 # input  1. money   2. strategy (http://0.0.0.0:5000/?money=3000&strategy=1,2)
 
