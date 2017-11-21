@@ -36,20 +36,32 @@ def test():
 	
 	# input number of strategy is 1
 	if len(strategy) == 1:
-		if strategy == '1':
+		if int(strategy[0]) == 1:
 			result = EthicalInvesting(money)
-		elif strategy == '2':
+		elif int(strategy[0]) == 2:
 			result = GrowthInvesting(money)
-		elif strategy == '3':
+		elif int(strategy[0]) == 3:
 			result = IndexInvesting(money)
-		elif strategy == '4':
+		elif int(strategy[0]) == 4:
 			result = QualityInvesting(money)
 		else:
 			result = ValueInvesting(money)
 		return json.dumps(result)
 	# input number of strategy is 2
 	else:
-		return 'try later'		
+		result = dict()
+		for i in range(0, len(strategy)):
+			if int(strategy[i]) == 1:
+				result.setdefault('strategies', []).append(EthicalInvesting(money / 2.0))
+			elif int(strategy[i]) == 2:
+				result.setdefault('strategies', []).append(GrowthInvesting(money / 2.0))
+			elif int(strategy[i]) == 3:
+				result.setdefault('strategies', []).append(IndexInvesting(money / 2.0))
+			elif int(strategy[i]) == 4:
+				result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
+			else:
+				result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
+		return json.dumps(result)
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0',debug = True)
