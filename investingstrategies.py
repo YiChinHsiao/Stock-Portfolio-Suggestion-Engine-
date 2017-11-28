@@ -1,6 +1,5 @@
 #Investing Strategies API
 from retrievestockinfo import getStockInfo
-import json
 
 def EthicalInvesting(money):
 	stock_num = 3
@@ -102,7 +101,7 @@ def ValueInvesting(money):
 	stock_num = 3
 	div_money = money / 3.0
 	
-	info1 = getStockInfo('NVDA')
+	info1 = getStockInfo('BIDU')
 	info2 = getStockInfo('CRM')
 	info3 = getStockInfo('ATVI')
 	
