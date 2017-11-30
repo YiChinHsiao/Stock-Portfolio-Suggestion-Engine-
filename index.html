@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CMPE 285 Term Project</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/series-label.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+		<div class="navbar-header">
+		  <a class="navbar-brand" href="">CMPE 285 Team Project</a>
+		</div>
+		<ul class="nav navbar-nav" style="float:right">
+		  <li><a href="">Gary</a></li>
+		  <li><a href="">DaMing</a></li>
+		  <li><a href="">ChengCheng</a></li>
+		  <li><a href="">Shuoran</a></li>
+		</ul>
+	  </div>
+	</nav>
+	<div id="container"  style="margin:100px auto;">
+		<div id="step1" class="row">
+			<div class="col-xs-3"></div>
+			<form class="col-xs-6 well well-lg" id="fakeForm" onsubmit="return submitFakeForm()">
+				<div class="row">
+					<div class="col-xs-9 col-sm-6">
+						<br>
+						<p>Please select your strategy</p>
+					</div>
+					<div class="col-xs-6">
+						<div class="checkbox"><label><input id = "check1" type="checkbox" class="strategtCheckbox" value="1">Ethical Investing</label></div>
+						<div class="checkbox"><label><input id = "check2" type="checkbox" class="strategtCheckbox" value="2">Growth Investing</label></div>
+						<div class="checkbox"><label><input id = "check3" type="checkbox" class="strategtCheckbox" value="3">Index Investing</label></div>
+						<div class="checkbox"><label><input id = "check4" type="checkbox" class="strategtCheckbox" value="4">Quality Investing</label></div>
+						<div class="checkbox"><label><input id = "check5" type="checkbox" class="strategtCheckbox" value="5">Value Investing</label></div>
+					</div>
+				</div>
+				<div class="form-group">
+				
+					<label for="email">Invest money</label>
+					<input type="text" class="form-control" id="investMoney">
+				</div>
+				<button id="investNow" type="button" class="btn btn-default">Invest Now!</button>
+			</form>
+		</div>
+		<div id="step2" style="display:none;">
+			<h2 id = "title1">Growing Investment Strategy</h2>
+			<p>Please take a look at the stocks we recommanded:</p>
+			<table class="table table-striped">
+				<thead>
+				  <tr>
+					<th>Stock</th>
+					<th>Price($)</th>
+					<th>Share</th>
+					<th>Radio</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td id = "name1">GOOG</td>
+					<td id = "money1">$1320.32</td>
+					<td id = "quantity1">10</td>
+					<td id = "percentage1">33.33%</td>
+				  </tr>
+				  <tr>
+					<td id = "name2">GOOG</td>
+					<td id = "money2">$1320.32</td>
+					<td id = "quantity2">10</td>
+					<td id = "percentage2">33.33%</td>
+				  </tr>
+				  <tr>
+					<td id = "name3">GOOG</td>
+					<td id = "money3">$1320.32</td>
+					<td id = "quantity3">10</td>
+					<td id = "percentage3">33.33%</td>
+				  </tr>
+				</tbody>
+			</table>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div id="piechart" style="width: 500px; height: 300px;"></div>
+				</div>
+			</div>
+			<div id="googleChart"></div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+    function submitFakeForm(){
+		$("#investNow").click();
+		return false;
+	}
+	$("#investNow").click(function(){
+	    console.log('getting data');
+        var inputMoney = $("#investMoney").val();
+        var val = [];
+        
+        $('input:checked.strategtCheckbox').each(function (i) {
+            val[i] = $(this).val();
+        });
+        console.log(val);
+        changeTitle(val);
+        //console.log("Stratege" + strategyCount);
+        var url = "http://localhost:5000/?money=" + inputMoney + "&strategy=" + val;
+        $.get(url, function(data, status, strategyCount){
+            data = data.stocks;
+            console.log(data);
+            names = [data[0].symbol, data[1].symbol, data[2].symbol];
+            quantities = [data[0].quantity, data[1].quantity, data[2].quantity];
+            money = [data[0].prices[0], data[1].prices[0], data[2].prices[0]];
+            
+            var strategyCount = 0;
+            $('input:checked.strategtCheckbox').each(function () {
+                strategyCount++;
+            });
+            console.log("S" + strategyCount);
+            if(isMoneyInputValid(inputMoney) && strategyCount>0 && strategyCount<3){
+                drawFirstChart(names, money, quantities);
+                $("#step1").css("display","none");
+                $("#step2").css("display","block");
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart1);
+                function drawChart1() {
+
+                    var gdata = google.visualization.arrayToDataTable([
+                        ['STOCK', 'SHARE'],
+                        [data[0].symbol, data[0].quantity],
+                        [data[1].symbol, data[1].quantity],
+                        [data[2].symbol, data[2].quantity]
+                    ]);
+
+                    var options = {
+                        title: 'Holding Radio Pie Chart'
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                    chart.draw(gdata, options);
+                }
+
+
+                Highcharts.chart('googleChart', {
+
+                    title: {
+                        text: 'Your Inverstment Strategies'
+                    },
+
+                    subtitle: {
+                        text: 'Source: Google Finance API'
+                    },
+
+                    xAxis: {
+                        categories: [data[0].dates[4], data[0].dates[3], data[0].dates[2], data[0].dates[1], data[0].dates[0]]
+                    },
+
+                    yAxis: {
+                        title: {
+                            text: 'Money'
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            },
+                            enableMouseTracking: false
+                        }
+                    },
+
+                    series: [{
+                        name: 'Overall',
+                        data: [Math.ceil(data[0].prices[4] * quantities[0] + data[1].prices[4] * quantities[1] + data[2].prices[4] * quantities[2]), 
+                               Math.ceil(data[0].prices[3] * quantities[0] + data[1].prices[3] * quantities[1] + data[2].prices[3] * quantities[2]),
+                               Math.ceil(data[0].prices[2] * quantities[0] + data[1].prices[2] * quantities[1] + data[2].prices[2] * quantities[2]), 
+                               Math.ceil(data[0].prices[1] * quantities[0] + data[1].prices[1] * quantities[1] + data[2].prices[1] * quantities[2]), 
+                               Math.ceil(data[0].prices[0] * quantities[0] + data[1].prices[0] * quantities[1] + data[2].prices[0] * quantities[2])]
+                    }, {
+                        name: data[0].symbol,
+                        data: [Math.ceil(data[0].prices[4] * quantities[0]), Math.ceil(data[0].prices[3] * quantities[0]), Math.ceil(data[0].prices[2] * quantities[0]), Math.ceil(data[0].prices[1] * quantities[0]), Math.ceil(data[0].prices[0] * quantities[0])]
+                    }, {
+                        name: data[1].symbol,
+                        data: [Math.ceil(data[1].prices[4] * quantities[1]), Math.ceil(data[1].prices[3] * quantities[1]), Math.ceil(data[1].prices[2] * quantities[1]), Math.ceil(data[1].prices[1] * quantities[1]), Math.ceil(data[1].prices[0] * quantities[1])]
+                    }, {
+                        name: data[2].symbol,
+                        data: [Math.ceil(data[2].prices[4] * quantities[2]), Math.ceil(data[2].prices[3] * quantities[2]), Math.ceil(data[2].prices[2] * quantities[2]), Math.ceil(data[2].prices[1] * quantities[2]), Math.ceil(data[2].prices[0] * quantities[2])]
+                    }],
+
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+
+                });
+            } else {
+                alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
+            }
+
+        });
+	});
+    
+    function drawFirstChart(names, money, quantities) {
+        document.getElementById("name1").innerHTML = names[0];
+        document.getElementById("money1").innerHTML = "$" + Math.ceil(money[0] * quantities[0]);
+        document.getElementById("quantity1").innerHTML = quantities[0];
+        
+        document.getElementById("name2").innerHTML = names[1];
+        document.getElementById("money2").innerHTML = "$" + Math.ceil(money[1] * quantities[1]);
+        document.getElementById("quantity2").innerHTML = quantities[1];
+        
+        document.getElementById("name3").innerHTML = names[2];
+        document.getElementById("money3").innerHTML = "$" + Math.ceil(money[2] * quantities[2]);
+        document.getElementById("quantity3").innerHTML = quantities[2];
+        
+        var sum = quantities[0] + quantities[1] + quantities[2];
+        var p1 = quantities[0] / sum * 100;
+        p1 = p1.toFixed(2);
+        
+        var p2 = quantities[1] / sum * 100;
+        p2 = p2.toFixed(2);
+        
+        var p3 = quantities[2] / sum * 100;
+        p3 = p3.toFixed(2);
+        
+        document.getElementById("percentage1").innerHTML = p1 + "%";
+        document.getElementById("percentage2").innerHTML = p2 + "%";
+        document.getElementById("percentage3").innerHTML = p3 + "%";
+    }
+    
+    function changeTitle(val) {
+        for(var i = 0; i < val.length; i++) {
+            var title = "";
+            if(val[i] == 1) {
+               title = title + "Ethical Investing ";
+            } else if(val[i] == 2) {
+               title = title + "Growth Investing ";
+            } else if(val[i] == 3) {
+               title = title + "Index Investing ";
+            } else if(val[i] == 4) {
+               title = title + "Quality Investing ";
+            } else if(val[i] == 5) {
+               title = title + "Value Investing ";
+            }
+        }
+        
+        document.getElementById("title1").innerHTML = title;
+    }
+    
+    
+	function isMoneyInputValid(inputMoney){
+		var regex = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
+		if (regex.test(inputMoney)){
+			if(inputMoney >= 5000){
+				return true;
+			}
+		}
+		return false;
+	}
+    
+</script>
+</body>
+</html>
