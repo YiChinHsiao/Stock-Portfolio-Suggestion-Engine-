@@ -2,10 +2,7 @@
 from yahoofinancials import YahooFinancials
 from time import strftime
 import datetime
-
-ticker_symbol_list = ['AAPL', 'ADBE', 'GOOG', 'MSFT', 'FB', 'T', 'INTC', 'ORCL', 'VZ',
-					  'CSCO', 'IBM', 'SAP', 'BIDU', 'CRM', 'ATVI']
-info = dict()
+import settings
 
 #one time get one stock information
 def getStockInfo(ticker_symbol):

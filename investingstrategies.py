@@ -1,57 +1,57 @@
 #Investing Strategies API
-from retrievestockinfo import *
+import settings 
 
 def EthicalInvesting(money):
-	ticker_symbol_list = ['AAPL', 'ADBE','GOOG']
-	div_money = 1.0 * money / len(ticker_symbol_list)
-	info = getStockInfoList(ticker_symbol_list)
-	for i in range(len(ticker_symbol_list)):
-		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
-		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+	div_money = money / 3.0
+	result = dict()
+	for i in range(3):
+		settings.info1['stocks'][i]['quantity'] = int(div_money / settings.info1['stocks'][i]['prices'][0])
+		left_money = div_money - settings.info1['stocks'][i]['quantity'] * settings.info1['stocks'][i]['prices'][0]
 		div_money += left_money
+	result = settings.info1
 	
-	return info
+	return result
 	
 def GrowthInvesting(money):
-	ticker_symbol_list = ['MSFT', 'FB','T']
-	div_money = 1.0 * money / len(ticker_symbol_list)
-	info = getStockInfoList(ticker_symbol_list)
-	for i in range(len(ticker_symbol_list)):
-		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
-		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+	div_money = money / 3.0
+	result = dict()
+	for i in range(3):
+		settings.info2['stocks'][i]['quantity'] = int(div_money / settings.info2['stocks'][i]['prices'][0])
+		left_money = div_money - settings.info2['stocks'][i]['quantity'] * settings.info2['stocks'][i]['prices'][0]
 		div_money += left_money
+	result = settings.info2
 	
-	return info
+	return result
 	
 def IndexInvesting(money):
-	ticker_symbol_list = ['INTC', 'ORCL','VZ']
-	div_money = 1.0 * money / len(ticker_symbol_list)
-	info = getStockInfoList(ticker_symbol_list)
-	for i in range(len(ticker_symbol_list)):
-		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
-		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+	div_money = money / 3.0
+	result = dict()
+	for i in range(3):
+		settings.info3['stocks'][i]['quantity'] = int(div_money / settings.info3['stocks'][i]['prices'][0])
+		left_money = div_money - settings.info3['stocks'][i]['quantity'] * settings.info3['stocks'][i]['prices'][0]
 		div_money += left_money
+	result = settings.info3
 	
-	return info
+	return result
 	
 def QualityInvesting(money):
-	ticker_symbol_list = ['CSCO', 'IBM','SAP']
-	div_money = 1.0 * money / len(ticker_symbol_list)
-	info = getStockInfoList(ticker_symbol_list)
-	for i in range(len(ticker_symbol_list)):
-		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
-		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+	div_money = money / 3.0
+	result = dict()
+	for i in range(3):
+		settings.info4['stocks'][i]['quantity'] = int(div_money / settings.info4['stocks'][i]['prices'][0])
+		left_money = div_money - settings.info4['stocks'][i]['quantity'] * settings.info4['stocks'][i]['prices'][0]
 		div_money += left_money
+	result = settings.info4
 	
-	return info
+	return result
 	
 def ValueInvesting(money):
-	ticker_symbol_list = ['BIDU', 'CRM','ATVI']
-	div_money = 1.0 * money / len(ticker_symbol_list)
-	info = getStockInfoList(ticker_symbol_list)
-	for i in range(len(ticker_symbol_list)):
-		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
-		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+	div_money = money / 3.0
+	result = dict()
+	for i in range(3):
+		settings.info5['stocks'][i]['quantity'] = int(div_money / settings.info5['stocks'][i]['prices'][0])
+		left_money = div_money - settings.info5['stocks'][i]['quantity'] * settings.info5['stocks'][i]['prices'][0]
 		div_money += left_money
+	result = settings.info5
 	
-	return info
+	return result
