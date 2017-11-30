@@ -1,11 +1,18 @@
 from flask import Flask, request, render_template
 from investingstrategies import *
+from retrievestockinfo import *
+import json
 
 application = Flask(__name__)	
 
-@application.route('/')
-def suggestion():	
+def main():
+	info = getStockInfoList(ticker_symbol_list)
+	print info
+	application.run(host='0.0.0.0',debug = True)
 
+@application.route('/')
+def suggestion():
+	
 	money = request.args.get('money')
 	strategy = request.args.get('strategy')
 	
@@ -35,6 +42,7 @@ def suggestion():
 	
 	# input number of strategy is 1
 	if len(strategy) == 1:
+		result = dict()
 		if int(strategy[0]) == 1:
 			result = EthicalInvesting(money)
 		elif int(strategy[0]) == 2:
@@ -45,7 +53,7 @@ def suggestion():
 			result = QualityInvesting(money)
 		else:
 			result = ValueInvesting(money)
-		return render_template('suggestion.html', result=result)
+		return json.dumps(result)
 	# input number of strategy is 2
 	else:
 		result = dict()
@@ -60,7 +68,7 @@ def suggestion():
 				result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
 			else:
 				result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
-		return render_template('suggestion.html', result=result)
+		return json.dumps(result)
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0',debug = True)
+	main()

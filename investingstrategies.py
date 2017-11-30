@@ -1,122 +1,57 @@
 #Investing Strategies API
-from retrievestockinfo import getStockInfo
+from retrievestockinfo import *
 
 def EthicalInvesting(money):
-	stock_num = 3
-	div_money = money / 3.0
+	ticker_symbol_list = ['AAPL', 'ADBE','GOOG']
+	div_money = 1.0 * money / len(ticker_symbol_list)
+	info = getStockInfoList(ticker_symbol_list)
+	for i in range(len(ticker_symbol_list)):
+		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
+		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+		div_money += left_money
 	
-	info1 = getStockInfo('AAPL')
-	info2 = getStockInfo('ADBE')
-	info3 = getStockInfo('GOOG')
-	
-	info1['quantity'] = int(div_money / info1['prices'][0])
-	left_money = div_money - info1['quantity'] * info1['prices'][0]
-	div_money += left_money
-	info2['quantity'] = int(div_money / info2['prices'][0])
-	left_money = div_money - info2['quantity'] * info2['prices'][0]
-	div_money += left_money
-	info3['quantity'] = int(div_money / info3['prices'][0])
-	left_money = div_money - info3['quantity'] * info3['prices'][0]
-	
-	result = dict()
-	result.setdefault('stocks', []).append(info1)
-	result.setdefault('stocks', []).append(info2)
-	result.setdefault('stocks', []).append(info3)
-	
-	return result
+	return info
 	
 def GrowthInvesting(money):
-	stock_num = 3
-	div_money = money / 3.0
+	ticker_symbol_list = ['MSFT', 'FB','T']
+	div_money = 1.0 * money / len(ticker_symbol_list)
+	info = getStockInfoList(ticker_symbol_list)
+	for i in range(len(ticker_symbol_list)):
+		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
+		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+		div_money += left_money
 	
-	info1 = getStockInfo('MSFT')
-	info2 = getStockInfo('FB')
-	info3 = getStockInfo('T')
-	
-	info1['quantity'] = int(div_money / info1['prices'][0])
-	left_money = div_money - info1['quantity'] * info1['prices'][0]
-	div_money += left_money
-	info2['quantity'] = int(div_money / info2['prices'][0])
-	left_money = div_money - info2['quantity'] * info2['prices'][0]
-	div_money += left_money
-	info3['quantity'] = int(div_money / info3['prices'][0])
-	left_money = div_money - info3['quantity'] * info3['prices'][0]
-	
-	result = dict()
-	result.setdefault('stocks', []).append(info1)
-	result.setdefault('stocks', []).append(info2)
-	result.setdefault('stocks', []).append(info3)
-	
-	return result
+	return info
 	
 def IndexInvesting(money):
-	stock_num = 3
-	div_money = money / 3.0
+	ticker_symbol_list = ['INTC', 'ORCL','VZ']
+	div_money = 1.0 * money / len(ticker_symbol_list)
+	info = getStockInfoList(ticker_symbol_list)
+	for i in range(len(ticker_symbol_list)):
+		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
+		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+		div_money += left_money
 	
-	info1 = getStockInfo('INTC')
-	info2 = getStockInfo('ORCL')
-	info3 = getStockInfo('VZ')
-	
-	info1['quantity'] = int(div_money / info1['prices'][0])
-	left_money = div_money - info1['quantity'] * info1['prices'][0]
-	div_money += left_money
-	info2['quantity'] = int(div_money / info2['prices'][0])
-	left_money = div_money - info2['quantity'] * info2['prices'][0]
-	div_money += left_money
-	info3['quantity'] = int(div_money / info3['prices'][0])
-	left_money = div_money - info3['quantity'] * info3['prices'][0]
-	
-	result = dict()
-	result.setdefault('stocks', []).append(info1)
-	result.setdefault('stocks', []).append(info2)
-	result.setdefault('stocks', []).append(info3)
-	
-	return result
+	return info
 	
 def QualityInvesting(money):
-	stock_num = 3
-	div_money = money / 3.0
+	ticker_symbol_list = ['CSCO', 'IBM','SAP']
+	div_money = 1.0 * money / len(ticker_symbol_list)
+	info = getStockInfoList(ticker_symbol_list)
+	for i in range(len(ticker_symbol_list)):
+		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
+		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+		div_money += left_money
 	
-	info1 = getStockInfo('CSCO')
-	info2 = getStockInfo('IBM')
-	info3 = getStockInfo('SAP')
-	
-	info1['quantity'] = int(div_money / info1['prices'][0])
-	left_money = div_money - info1['quantity'] * info1['prices'][0]
-	div_money += left_money
-	info2['quantity'] = int(div_money / info2['prices'][0])
-	left_money = div_money - info2['quantity'] * info2['prices'][0]
-	div_money += left_money
-	info3['quantity'] = int(div_money / info3['prices'][0])
-	left_money = div_money - info3['quantity'] * info3['prices'][0]
-	
-	result = dict()
-	result.setdefault('stocks', []).append(info1)
-	result.setdefault('stocks', []).append(info2)
-	result.setdefault('stocks', []).append(info3)
-	
-	return result
+	return info
 	
 def ValueInvesting(money):
-	stock_num = 3
-	div_money = money / 3.0
+	ticker_symbol_list = ['BIDU', 'CRM','ATVI']
+	div_money = 1.0 * money / len(ticker_symbol_list)
+	info = getStockInfoList(ticker_symbol_list)
+	for i in range(len(ticker_symbol_list)):
+		info['stocks'][i]['quantity'] = int(div_money / info['stocks'][i]['prices'][0])
+		left_money = div_money - info['stocks'][i]['quantity'] * info['stocks'][i]['prices'][0]
+		div_money += left_money
 	
-	info1 = getStockInfo('BIDU')
-	info2 = getStockInfo('CRM')
-	info3 = getStockInfo('ATVI')
-	
-	info1['quantity'] = int(div_money / info1['prices'][0])
-	left_money = div_money - info1['quantity'] * info1['prices'][0]
-	div_money += left_money
-	info2['quantity'] = int(div_money / info2['prices'][0])
-	left_money = div_money - info2['quantity'] * info2['prices'][0]
-	div_money += left_money
-	info3['quantity'] = int(div_money / info3['prices'][0])
-	left_money = div_money - info3['quantity'] * info3['prices'][0]
-	
-	result = dict()
-	result.setdefault('stocks', []).append(info1)
-	result.setdefault('stocks', []).append(info2)
-	result.setdefault('stocks', []).append(info3)
-	
-	return result
+	return info
