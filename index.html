@@ -112,104 +112,218 @@
         $.get(url, function(data, status, strategyCount){
             data = data.stocks;
             console.log(data);
-            names = [data[0].symbol, data[1].symbol, data[2].symbol];
-            quantities = [data[0].quantity, data[1].quantity, data[2].quantity];
-            money = [data[0].prices[0], data[1].prices[0], data[2].prices[0]];
+			if(data.length==3){
+				names = [data[0].symbol, data[1].symbol, data[2].symbol];
+				quantities = [data[0].quantity, data[1].quantity, data[2].quantity];
+				money = [data[0].prices[0], data[1].prices[0], data[2].prices[0]];
+				
+				var strategyCount = 0;
+				$('input:checked.strategtCheckbox').each(function () {
+					strategyCount++;
+				});
+				console.log("S" + strategyCount);
+				if(isMoneyInputValid(inputMoney) && strategyCount>0 && strategyCount<3){
+					drawFirstChart(names, money, quantities);
+					$("#step1").css("display","none");
+					$("#step2").css("display","block");
+					google.charts.load('current', {'packages':['corechart']});
+					google.charts.setOnLoadCallback(drawChart1);
+					function drawChart1() {
+
+						var gdata = google.visualization.arrayToDataTable([
+							['STOCK', 'SHARE'],
+							[data[0].symbol, data[0].quantity],
+							[data[1].symbol, data[1].quantity],
+							[data[2].symbol, data[2].quantity]
+						]);
+
+						var options = {
+							title: 'Holding Radio Pie Chart'
+						};
+
+						var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+						chart.draw(gdata, options);
+					}
+
+
+					Highcharts.chart('googleChart', {
+
+						title: {
+							text: 'Your Inverstment Strategies'
+						},
+
+						subtitle: {
+							text: 'Source: Google Finance API'
+						},
+
+						xAxis: {
+							categories: [data[0].dates[4], data[0].dates[3], data[0].dates[2], data[0].dates[1], data[0].dates[0]]
+						},
+
+						yAxis: {
+							title: {
+								text: 'Money'
+							}
+						},
+						legend: {
+							layout: 'vertical',
+							align: 'right',
+							verticalAlign: 'middle'
+						},
+
+						plotOptions: {
+							line: {
+								dataLabels: {
+									enabled: true
+								},
+								enableMouseTracking: false
+							}
+						},
+
+						series: [{
+							name: data[0].symbol,
+							data: [Math.ceil(data[0].prices[4] * quantities[0]), Math.ceil(data[0].prices[3] * quantities[0]), Math.ceil(data[0].prices[2] * quantities[0]), Math.ceil(data[0].prices[1] * quantities[0]), Math.ceil(data[0].prices[0] * quantities[0])]
+						}, {
+							name: data[1].symbol,
+							data: [Math.ceil(data[1].prices[4] * quantities[1]), Math.ceil(data[1].prices[3] * quantities[1]), Math.ceil(data[1].prices[2] * quantities[1]), Math.ceil(data[1].prices[1] * quantities[1]), Math.ceil(data[1].prices[0] * quantities[1])]
+						}, {
+							name: data[2].symbol,
+							data: [Math.ceil(data[2].prices[4] * quantities[2]), Math.ceil(data[2].prices[3] * quantities[2]), Math.ceil(data[2].prices[2] * quantities[2]), Math.ceil(data[2].prices[1] * quantities[2]), Math.ceil(data[2].prices[0] * quantities[2])]
+						}],
+
+						responsive: {
+							rules: [{
+								condition: {
+									maxWidth: 500
+								},
+								chartOptions: {
+									legend: {
+										layout: 'horizontal',
+										align: 'center',
+										verticalAlign: 'bottom'
+									}
+								}
+							}]
+						}
+
+					});
+				} else {
+					alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
+				}
+			} else if(data.length==6) {
+				names = [data[0].symbol, data[1].symbol, data[2].symbol, data[3].symbol, data[4].symbol, data[5].symbol];
+				quantities = [data[0].quantity, data[1].quantity, data[2].quantity, data[3].quantity, data[4].quantity, data[5].quantity];
+				money = [data[0].prices[0], data[1].prices[0], data[2].prices[0],data[3].prices[0], data[4].prices[0], data[5].prices[0]];
+				
+				var strategyCount = 0;
+				$('input:checked.strategtCheckbox').each(function () {
+					strategyCount++;
+				});
+				console.log("S" + strategyCount);
+				if(isMoneyInputValid(inputMoney) && strategyCount>0 && strategyCount<3){
+					drawFirstChart(names, money, quantities);
+					$("#step1").css("display","none");
+					$("#step2").css("display","block");
+					google.charts.load('current', {'packages':['corechart']});
+					google.charts.setOnLoadCallback(drawChart1);
+					function drawChart1() {
+
+						var gdata = google.visualization.arrayToDataTable([
+							['STOCK', 'SHARE'],
+							[data[0].symbol, data[0].quantity],
+							[data[1].symbol, data[1].quantity],
+							[data[2].symbol, data[2].quantity],
+							[data[0].symbol, data[3].quantity],
+							[data[1].symbol, data[4].quantity],
+							[data[2].symbol, data[5].quantity]
+						]);
+
+						var options = {
+							title: 'Holding Radio Pie Chart'
+						};
+
+						var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+						chart.draw(gdata, options);
+					}
+
+
+					Highcharts.chart('googleChart', {
+
+						title: {
+							text: 'Your Inverstment Strategies'
+						},
+
+						subtitle: {
+							text: 'Source: Google Finance API'
+						},
+
+						xAxis: {
+							categories: [data[0].dates[4], data[0].dates[3], data[0].dates[2], data[0].dates[1], data[0].dates[0]]
+						},
+
+						yAxis: {
+							title: {
+								text: 'Money'
+							}
+						},
+						legend: {
+							layout: 'vertical',
+							align: 'right',
+							verticalAlign: 'middle'
+						},
+
+						plotOptions: {
+							line: {
+								dataLabels: {
+									enabled: true
+								},
+								enableMouseTracking: false
+							}
+						},
+
+						series: [{
+							name: data[0].symbol,
+							data: [Math.ceil(data[0].prices[4] * quantities[0]), Math.ceil(data[0].prices[3] * quantities[0]), Math.ceil(data[0].prices[2] * quantities[0]), Math.ceil(data[0].prices[1] * quantities[0]), Math.ceil(data[0].prices[0] * quantities[0])]
+						}, {
+							name: data[1].symbol,
+							data: [Math.ceil(data[1].prices[4] * quantities[1]), Math.ceil(data[1].prices[3] * quantities[1]), Math.ceil(data[1].prices[2] * quantities[1]), Math.ceil(data[1].prices[1] * quantities[1]), Math.ceil(data[1].prices[0] * quantities[1])]
+						}, {
+							name: data[2].symbol,
+							data: [Math.ceil(data[2].prices[4] * quantities[2]), Math.ceil(data[2].prices[3] * quantities[2]), Math.ceil(data[2].prices[2] * quantities[2]), Math.ceil(data[2].prices[1] * quantities[2]), Math.ceil(data[2].prices[0] * quantities[2])]
+						}, {
+							name: data[3].symbol,
+							data: [Math.ceil(data[3].prices[4] * quantities[3]), Math.ceil(data[3].prices[3] * quantities[3]), Math.ceil(data[3].prices[2] * quantities[3]), Math.ceil(data[3].prices[1] * quantities[3]), Math.ceil(data[3].prices[0] * quantities[3])]
+						}, {
+							name: data[4].symbol,
+							data: [Math.ceil(data[4].prices[4] * quantities[4]), Math.ceil(data[4].prices[3] * quantities[4]), Math.ceil(data[4].prices[2] * quantities[4]), Math.ceil(data[4].prices[1] * quantities[4]), Math.ceil(data[4].prices[0] * quantities[4])]
+						}, {
+							name: data[5].symbol,
+							data: [Math.ceil(data[5].prices[4] * quantities[5]), Math.ceil(data[5].prices[3] * quantities[5]), Math.ceil(data[5].prices[2] * quantities[5]), Math.ceil(data[5].prices[1] * quantities[5]), Math.ceil(data[5].prices[0] * quantities[5])]
+						}],
+
+						responsive: {
+							rules: [{
+								condition: {
+									maxWidth: 500
+								},
+								chartOptions: {
+									legend: {
+										layout: 'horizontal',
+										align: 'center',
+										verticalAlign: 'bottom'
+									}
+								}
+							}]
+						}
+
+					});
+				} else {
+					alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
+				}
+			}
             
-            var strategyCount = 0;
-            $('input:checked.strategtCheckbox').each(function () {
-                strategyCount++;
-            });
-            console.log("S" + strategyCount);
-            if(isMoneyInputValid(inputMoney) && strategyCount>0 && strategyCount<3){
-                drawFirstChart(names, money, quantities);
-                $("#step1").css("display","none");
-                $("#step2").css("display","block");
-                google.charts.load('current', {'packages':['corechart']});
-                google.charts.setOnLoadCallback(drawChart1);
-                function drawChart1() {
-
-                    var gdata = google.visualization.arrayToDataTable([
-                        ['STOCK', 'SHARE'],
-                        [data[0].symbol, data[0].quantity],
-                        [data[1].symbol, data[1].quantity],
-                        [data[2].symbol, data[2].quantity]
-                    ]);
-
-                    var options = {
-                        title: 'Holding Radio Pie Chart'
-                    };
-
-                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-                    chart.draw(gdata, options);
-                }
-
-
-                Highcharts.chart('googleChart', {
-
-                    title: {
-                        text: 'Your Inverstment Strategies'
-                    },
-
-                    subtitle: {
-                        text: 'Source: Google Finance API'
-                    },
-
-                    xAxis: {
-                        categories: [data[0].dates[4], data[0].dates[3], data[0].dates[2], data[0].dates[1], data[0].dates[0]]
-                    },
-
-                    yAxis: {
-                        title: {
-                            text: 'Money'
-                        }
-                    },
-                    legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle'
-                    },
-
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-
-                    series: [{
-                        name: data[0].symbol,
-                        data: [Math.ceil(data[0].prices[4] * quantities[0]), Math.ceil(data[0].prices[3] * quantities[0]), Math.ceil(data[0].prices[2] * quantities[0]), Math.ceil(data[0].prices[1] * quantities[0]), Math.ceil(data[0].prices[0] * quantities[0])]
-                    }, {
-                        name: data[1].symbol,
-                        data: [Math.ceil(data[1].prices[4] * quantities[1]), Math.ceil(data[1].prices[3] * quantities[1]), Math.ceil(data[1].prices[2] * quantities[1]), Math.ceil(data[1].prices[1] * quantities[1]), Math.ceil(data[1].prices[0] * quantities[1])]
-                    }, {
-                        name: data[2].symbol,
-                        data: [Math.ceil(data[2].prices[4] * quantities[2]), Math.ceil(data[2].prices[3] * quantities[2]), Math.ceil(data[2].prices[2] * quantities[2]), Math.ceil(data[2].prices[1] * quantities[2]), Math.ceil(data[2].prices[0] * quantities[2])]
-                    }],
-
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                legend: {
-                                    layout: 'horizontal',
-                                    align: 'center',
-                                    verticalAlign: 'bottom'
-                                }
-                            }
-                        }]
-                    }
-
-                });
-            } else {
-                alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
-            }
 
         });
 	});
