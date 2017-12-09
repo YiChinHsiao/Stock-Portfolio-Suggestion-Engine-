@@ -110,9 +110,10 @@
         //console.log("Stratege" + strategyCount);
         var url = "http://localhost:5000/?money=" + inputMoney + "&strategy=" + val;
         $.get(url, function(data, status, strategyCount){
-            data = data.stocks;
+            data = data.strategies;
             console.log(data);
-			if(data.length==3){
+			if(data.length==1){
+				data = data[0].stocks;
 				names = [data[0].symbol, data[1].symbol, data[2].symbol];
 				quantities = [data[0].quantity, data[1].quantity, data[2].quantity];
 				money = [data[0].prices[0], data[1].prices[0], data[2].prices[0]];
@@ -129,38 +130,28 @@
 					google.charts.load('current', {'packages':['corechart']});
 					google.charts.setOnLoadCallback(drawChart1);
 					function drawChart1() {
-
 						var gdata = google.visualization.arrayToDataTable([
 							['STOCK', 'SHARE'],
 							[data[0].symbol, data[0].quantity],
 							[data[1].symbol, data[1].quantity],
 							[data[2].symbol, data[2].quantity]
 						]);
-
 						var options = {
 							title: 'Holding Radio Pie Chart'
 						};
-
 						var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
 						chart.draw(gdata, options);
 					}
-
-
 					Highcharts.chart('googleChart', {
-
 						title: {
 							text: 'Your Inverstment Strategies'
 						},
-
 						subtitle: {
 							text: 'Source: Google Finance API'
 						},
-
 						xAxis: {
 							categories: [data[0].dates[4], data[0].dates[3], data[0].dates[2], data[0].dates[1], data[0].dates[0]]
 						},
-
 						yAxis: {
 							title: {
 								text: 'Money'
@@ -171,7 +162,6 @@
 							align: 'right',
 							verticalAlign: 'middle'
 						},
-
 						plotOptions: {
 							line: {
 								dataLabels: {
@@ -180,7 +170,6 @@
 								enableMouseTracking: false
 							}
 						},
-
 						series: [{
 							name: data[0].symbol,
 							data: [Math.ceil(data[0].prices[4] * quantities[0]), Math.ceil(data[0].prices[3] * quantities[0]), Math.ceil(data[0].prices[2] * quantities[0]), Math.ceil(data[0].prices[1] * quantities[0]), Math.ceil(data[0].prices[0] * quantities[0])]
@@ -191,7 +180,6 @@
 							name: data[2].symbol,
 							data: [Math.ceil(data[2].prices[4] * quantities[2]), Math.ceil(data[2].prices[3] * quantities[2]), Math.ceil(data[2].prices[2] * quantities[2]), Math.ceil(data[2].prices[1] * quantities[2]), Math.ceil(data[2].prices[0] * quantities[2])]
 						}],
-
 						responsive: {
 							rules: [{
 								condition: {
@@ -206,15 +194,16 @@
 								}
 							}]
 						}
-
 					});
 				} else {
 					alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
 				}
-			} else if(data.length==6) {
-				names = [data[0].symbol, data[1].symbol, data[2].symbol, data[3].symbol, data[4].symbol, data[5].symbol];
-				quantities = [data[0].quantity, data[1].quantity, data[2].quantity, data[3].quantity, data[4].quantity, data[5].quantity];
-				money = [data[0].prices[0], data[1].prices[0], data[2].prices[0],data[3].prices[0], data[4].prices[0], data[5].prices[0]];
+			} else if(data.length==2) {
+				data1 = data[0].stocks;
+				data2 = data[1].stocks;
+				names = [data1[0].symbol, data1[1].symbol, data1[2].symbol, data2[0].symbol, data2[1].symbol, data2[2].symbol];
+				quantities = [data1[0].quantity, data1[1].quantity, data1[2].quantity, data2[0].quantity, data2[1].quantity, data2[2].quantity];
+				money = [data1[0].prices[0], data1[1].prices[0], data1[2].prices[0],data2[0].prices[0], data2[1].prices[0], data2[2].prices[0]];
 				
 				var strategyCount = 0;
 				$('input:checked.strategtCheckbox').each(function () {
@@ -228,41 +217,31 @@
 					google.charts.load('current', {'packages':['corechart']});
 					google.charts.setOnLoadCallback(drawChart1);
 					function drawChart1() {
-
 						var gdata = google.visualization.arrayToDataTable([
 							['STOCK', 'SHARE'],
-							[data[0].symbol, data[0].quantity],
-							[data[1].symbol, data[1].quantity],
-							[data[2].symbol, data[2].quantity],
-							[data[0].symbol, data[3].quantity],
-							[data[1].symbol, data[4].quantity],
-							[data[2].symbol, data[5].quantity]
+							[data1[0].symbol, data1[0].quantity],
+							[data1[1].symbol, data1[1].quantity],
+							[data1[2].symbol, data1[2].quantity],
+							[data2[0].symbol, data2[0].quantity],
+							[data2[1].symbol, data2[1].quantity],
+							[data2[2].symbol, data2[2].quantity]
 						]);
-
 						var options = {
 							title: 'Holding Radio Pie Chart'
 						};
-
 						var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
 						chart.draw(gdata, options);
 					}
-
-
 					Highcharts.chart('googleChart', {
-
 						title: {
 							text: 'Your Inverstment Strategies'
 						},
-
 						subtitle: {
 							text: 'Source: Google Finance API'
 						},
-
 						xAxis: {
-							categories: [data[0].dates[4], data[0].dates[3], data[0].dates[2], data[0].dates[1], data[0].dates[0]]
+							categories: [data1[0].dates[4], data1[0].dates[3], data1[0].dates[2], data1[0].dates[1], data1[0].dates[0]]
 						},
-
 						yAxis: {
 							title: {
 								text: 'Money'
@@ -273,7 +252,6 @@
 							align: 'right',
 							verticalAlign: 'middle'
 						},
-
 						plotOptions: {
 							line: {
 								dataLabels: {
@@ -282,27 +260,25 @@
 								enableMouseTracking: false
 							}
 						},
-
 						series: [{
-							name: data[0].symbol,
-							data: [Math.ceil(data[0].prices[4] * quantities[0]), Math.ceil(data[0].prices[3] * quantities[0]), Math.ceil(data[0].prices[2] * quantities[0]), Math.ceil(data[0].prices[1] * quantities[0]), Math.ceil(data[0].prices[0] * quantities[0])]
+							name: data1[0].symbol,
+							data: [Math.ceil(data1[0].prices[4] * quantities[0]), Math.ceil(data1[0].prices[3] * quantities[0]), Math.ceil(data1[0].prices[2] * quantities[0]), Math.ceil(data1[0].prices[1] * quantities[0]), Math.ceil(data1[0].prices[0] * quantities[0])]
 						}, {
-							name: data[1].symbol,
-							data: [Math.ceil(data[1].prices[4] * quantities[1]), Math.ceil(data[1].prices[3] * quantities[1]), Math.ceil(data[1].prices[2] * quantities[1]), Math.ceil(data[1].prices[1] * quantities[1]), Math.ceil(data[1].prices[0] * quantities[1])]
+							name: data1[1].symbol,
+							data: [Math.ceil(data1[1].prices[4] * quantities[1]), Math.ceil(data1[1].prices[3] * quantities[1]), Math.ceil(data1[1].prices[2] * quantities[1]), Math.ceil(data1[1].prices[1] * quantities[1]), Math.ceil(data1[1].prices[0] * quantities[1])]
 						}, {
-							name: data[2].symbol,
-							data: [Math.ceil(data[2].prices[4] * quantities[2]), Math.ceil(data[2].prices[3] * quantities[2]), Math.ceil(data[2].prices[2] * quantities[2]), Math.ceil(data[2].prices[1] * quantities[2]), Math.ceil(data[2].prices[0] * quantities[2])]
+							name: data1[2].symbol,
+							data: [Math.ceil(data1[2].prices[4] * quantities[2]), Math.ceil(data1[2].prices[3] * quantities[2]), Math.ceil(data1[2].prices[2] * quantities[2]), Math.ceil(data1[2].prices[1] * quantities[2]), Math.ceil(data1[2].prices[0] * quantities[2])]
 						}, {
-							name: data[3].symbol,
-							data: [Math.ceil(data[3].prices[4] * quantities[3]), Math.ceil(data[3].prices[3] * quantities[3]), Math.ceil(data[3].prices[2] * quantities[3]), Math.ceil(data[3].prices[1] * quantities[3]), Math.ceil(data[3].prices[0] * quantities[3])]
+							name: data2[0].symbol,
+							data: [Math.ceil(data2[0].prices[4] * quantities[3]), Math.ceil(data2[0].prices[3] * quantities[3]), Math.ceil(data2[0].prices[2] * quantities[3]), Math.ceil(data2[0].prices[1] * quantities[3]), Math.ceil(data2[0].prices[0] * quantities[3])]
 						}, {
-							name: data[4].symbol,
-							data: [Math.ceil(data[4].prices[4] * quantities[4]), Math.ceil(data[4].prices[3] * quantities[4]), Math.ceil(data[4].prices[2] * quantities[4]), Math.ceil(data[4].prices[1] * quantities[4]), Math.ceil(data[4].prices[0] * quantities[4])]
+							name: data2[1].symbol,
+							data: [Math.ceil(data2[1].prices[4] * quantities[4]), Math.ceil(data2[1].prices[3] * quantities[4]), Math.ceil(data2[1].prices[2] * quantities[4]), Math.ceil(data2[1].prices[1] * quantities[4]), Math.ceil(data2[1].prices[0] * quantities[4])]
 						}, {
-							name: data[5].symbol,
-							data: [Math.ceil(data[5].prices[4] * quantities[5]), Math.ceil(data[5].prices[3] * quantities[5]), Math.ceil(data[5].prices[2] * quantities[5]), Math.ceil(data[5].prices[1] * quantities[5]), Math.ceil(data[5].prices[0] * quantities[5])]
+							name: data2[2].symbol,
+							data: [Math.ceil(data2[2].prices[4] * quantities[5]), Math.ceil(data2[2].prices[3] * quantities[5]), Math.ceil(data2[2].prices[2] * quantities[5]), Math.ceil(data2[2].prices[1] * quantities[5]), Math.ceil(data2[2].prices[0] * quantities[5])]
 						}],
-
 						responsive: {
 							rules: [{
 								condition: {
@@ -317,14 +293,12 @@
 								}
 							}]
 						}
-
 					});
 				} else {
 					alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
 				}
 			}
             
-
         });
 	});
     
