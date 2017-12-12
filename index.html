@@ -352,7 +352,9 @@
     
 	function isMoneyInputValid(inputMoney){
 		var regex = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
-		if (regex.test(inputMoney)){
+		if(!inputMoney || inputMoney==""){
+			return false;
+		}else if (regex.test(inputMoney)){
 			if(inputMoney >= 5000){
 				return true;
 			}
