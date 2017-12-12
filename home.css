@@ -5,6 +5,9 @@ html *
     font-family: Arial;
 }
 body {background-image: url('bg.jpg');}
+#step2 {
+	background-color: #fefefe;
+}
 
 #wrapper {
     text-align: center;
