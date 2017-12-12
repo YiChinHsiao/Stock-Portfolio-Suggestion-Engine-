@@ -107,7 +107,12 @@
         });
         console.log(val);
         changeTitle(val);
-		if(isMoneyInputValid(inputMoney)==false){
+		
+		var strategyCount = 0;
+		$('input:checked.strategtCheckbox').each(function () {
+			strategyCount++;
+		});
+		if(isMoneyInputValid(inputMoney)==false || strategyCount==0 ||strategyCount>2){
 			alert("Wrong input.\r\nMoney should over $5000\r\n1-2 strategy can be selected")
 		} else {
 			//console.log("Stratege" + strategyCount);
