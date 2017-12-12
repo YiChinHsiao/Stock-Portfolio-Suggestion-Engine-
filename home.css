@@ -4,6 +4,7 @@ html *
     color: #0078ad;
     font-family: Arial;
 }
+body {background-image: url('bg.jpg');}
 
 #wrapper {
     text-align: center;
