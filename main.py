@@ -1,72 +1,86 @@
+from flask import Flask, request, render_template, jsonify, make_response
+from investingstrategies import *
+from retrievestockinfo import *
+import settings
+import json
 import os
 
-from flask import (Flask, request, render_template, jsonify, make_response)
-from investingstrategies import *
+application = Flask(__name__)
 
-application = Flask(__name__)	
+def main():
+	settings.init()
+	settings.info1 = getStockInfoList(['AAPL', 'ADBE', 'GOOG'])
+	settings.info2 = getStockInfoList(['MSFT', 'FB', 'TSM'])
+	settings.info3 = getStockInfoList(['INTC', 'ORCL', 'VZ'])
+	settings.info4 = getStockInfoList(['CSCO', 'IBM', 'SAP'])
+	settings.info5 = getStockInfoList(['BIDU', 'CRM', 'ATVI'])
+	application.run(host='0.0.0.0', debug = True)
 
 @application.route('/')
-def suggestion():	
-
+def suggestion():
     money = request.args.get('money')
     strategy = request.args.get('strategy')
-
-    #return error if money is not given
-    if not money:
-        return 'The amount of money must be given'
-
-    #return error if strategy is not chosen
-    if not strategy:
-        return 'Must choose at least 1 strategy'
-
+    money = int(money)
     strategy = strategy.split(',')
-
-    #return error if more than 2 strategies are chosen
-    if len(strategy) > 2:
-        return 'Cannot choose more than 2 strategies'
-
-    try:
-        money = int(money)
-        #return error if input money is less than 5000
-        if money < 5000:
-            return 'Money has to be at least 5000'
-
-    #return error if input money is not an integer
-    except ValueError:
-        return 'Input (money) is not an integer'
-
     # input number of strategy is 1
     if len(strategy) == 1:
+    	result = dict()
         if int(strategy[0]) == 1:
-            result = EthicalInvesting(money)
+        	result.setdefault('strategies', []).append(EthicalInvesting(money))
         elif int(strategy[0]) == 2:
-            result = GrowthInvesting(money)
+        	result.setdefault('strategies', []).append(GrowthInvesting(money))
         elif int(strategy[0]) == 3:
-            result = IndexInvesting(money)
+        	result.setdefault('strategies', []).append(IndexInvesting(money))
         elif int(strategy[0]) == 4:
-            result = QualityInvesting(money)
+        	result.setdefault('strategies', []).append(QualityInvesting(money))
         else:
-            result = ValueInvesting(money)
+        	result.setdefault('strategies', []).append(ValueInvesting(money))
         resp = make_response(jsonify(result))
         resp.headers['Access-Control-Allow-Origin'] = '*'
     	return resp
     # input number of strategy is 2
     else:
+        temp = dict()
         result = dict()
         for i in range(0, len(strategy)):
             if int(strategy[i]) == 1:
-                result.setdefault('strategies', []).append(EthicalInvesting(money / 2.0))
+            	if i == 0:
+            		temp = EthicalInvesting((money / 2.0))
+            		result.setdefault('strategies', []).append(EthicalInvesting(money))
+                else:
+                	temp = EthicalInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(EthicalInvesting(money))
             elif int(strategy[i]) == 2:
-                result.setdefault('strategies', []).append(GrowthInvesting(money / 2.0))
+                if i == 0:
+                	temp = GrowthInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(GrowthInvesting(money))
+                else:
+                	temp = GrowthInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(GrowthInvesting(money))
             elif int(strategy[i]) == 3:
-                result.setdefault('strategies', []).append(IndexInvesting(money / 2.0))
+                if i == 0:
+                	temp = IndexInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(IndexInvesting(money))
+                else:
+                	temp = IndexInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(IndexInvesting(money))
             elif int(strategy[i]) == 4:
-                result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
+                if i == 0:
+                	temp = QualityInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(QualityInvesting(money))
+                else:
+                	temp = QualityInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(QualityInvesting(money))
             else:
-                result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
+                if i == 0:
+                	temp = ValueInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(ValueInvesting(money))
+                else:
+                	temp = ValueInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(ValueInvesting(money))
         resp = make_response(jsonify(result))
         resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
+    	return resp
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0',debug = True)
+	main()
