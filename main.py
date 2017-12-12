@@ -40,44 +40,33 @@ def suggestion():
     	return resp
     # input number of strategy is 2
     else:
-        temp = dict()
         result = dict()
         for i in range(0, len(strategy)):
             if int(strategy[i]) == 1:
             	if i == 0:
-            		temp = EthicalInvesting((money / 2.0))
-            		result.setdefault('strategies', []).append(EthicalInvesting(money))
+            		result.setdefault('strategies', []).append(EthicalInvesting(money / 2.0))
                 else:
-                	temp = EthicalInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(EthicalInvesting(money))
+                	result.setdefault('strategies', []).append(EthicalInvesting(money / 2.0))
             elif int(strategy[i]) == 2:
                 if i == 0:
-                	temp = GrowthInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(GrowthInvesting(money))
+                	result.setdefault('strategies', []).append(GrowthInvesting(money / 2.0))
                 else:
-                	temp = GrowthInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(GrowthInvesting(money))
+                	result.setdefault('strategies', []).append(GrowthInvesting(money / 2.0))
             elif int(strategy[i]) == 3:
                 if i == 0:
-                	temp = IndexInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(IndexInvesting(money))
+                	result.setdefault('strategies', []).append(IndexInvesting(money / 2.0))
                 else:
-                	temp = IndexInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(IndexInvesting(money))
+                	result.setdefault('strategies', []).append(IndexInvesting(money / 2.0))
             elif int(strategy[i]) == 4:
                 if i == 0:
-                	temp = QualityInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(QualityInvesting(money))
+                	result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
                 else:
-                	temp = QualityInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(QualityInvesting(money))
+                	result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
             else:
                 if i == 0:
-                	temp = ValueInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(ValueInvesting(money))
+                	result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
                 else:
-                	temp = ValueInvesting((money / 2.0))
-                	result.setdefault('strategies', []).append(ValueInvesting(money))
+                	result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
         resp = make_response(jsonify(result))
         resp.headers['Access-Control-Allow-Origin'] = '*'
     	return resp
