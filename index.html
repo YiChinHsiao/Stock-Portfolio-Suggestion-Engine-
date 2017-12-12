@@ -107,7 +107,7 @@
         });
         console.log(val);
         changeTitle(val);
-        //console.log("Stratege" + strategyCount);
+        
         var url = "http://localhost:5000/?money=" + inputMoney + "&strategy=" + val;
         $.get(url, function(data, status, strategyCount){
             data = data.stocks;
