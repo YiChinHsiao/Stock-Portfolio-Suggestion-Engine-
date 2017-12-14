@@ -26,54 +26,47 @@ def suggestion():
     if len(strategy) == 1:
     	result = dict()
         if int(strategy[0]) == 1:
-            result = EthicalInvesting(money)
+        	result.setdefault('strategies', []).append(EthicalInvesting(money))
         elif int(strategy[0]) == 2:
-            result = GrowthInvesting(money)
+        	result.setdefault('strategies', []).append(GrowthInvesting(money))
         elif int(strategy[0]) == 3:
-            result = IndexInvesting(money)
+        	result.setdefault('strategies', []).append(IndexInvesting(money))
         elif int(strategy[0]) == 4:
-            result = QualityInvesting(money)
+        	result.setdefault('strategies', []).append(QualityInvesting(money))
         else:
-            result = ValueInvesting(money)
+        	result.setdefault('strategies', []).append(ValueInvesting(money))
         resp = make_response(jsonify(result))
         resp.headers['Access-Control-Allow-Origin'] = '*'
     	return resp
     # input number of strategy is 2
     else:
-        temp1 = dict()
-        temp2 = dict()
         result = dict()
         for i in range(0, len(strategy)):
             if int(strategy[i]) == 1:
             	if i == 0:
-            		temp1 = EthicalInvesting((money / 2.0))
+            		result.setdefault('strategies', []).append(EthicalInvesting(money / 2.0))
                 else:
-                	temp2 = EthicalInvesting((money / 2.0))
-                	result = {key:(temp1[key], temp2[key]) for key in temp1}
+                	result.setdefault('strategies', []).append(EthicalInvesting(money / 2.0))
             elif int(strategy[i]) == 2:
                 if i == 0:
-                	temp1 = GrowthInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(GrowthInvesting(money / 2.0))
                 else:
-                	temp2 = GrowthInvesting((money / 2.0))
-                	result = {key:(temp1[key], temp2[key]) for key in temp1}
+                	result.setdefault('strategies', []).append(GrowthInvesting(money / 2.0))
             elif int(strategy[i]) == 3:
                 if i == 0:
-                	temp1 = IndexInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(IndexInvesting(money / 2.0))
                 else:
-                	temp2 = IndexInvesting((money / 2.0))
-                	result = {key:(temp1[key], temp2[key]) for key in temp1}
+                	result.setdefault('strategies', []).append(IndexInvesting(money / 2.0))
             elif int(strategy[i]) == 4:
                 if i == 0:
-                	temp1 = QualityInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
                 else:
-                	temp2 = QualityInvesting((money / 2.0))
-                	result = {key:(temp1[key], temp2[key]) for key in temp1}
+                	result.setdefault('strategies', []).append(QualityInvesting(money / 2.0))
             else:
                 if i == 0:
-                	temp1 = ValueInvesting((money / 2.0))
+                	result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
                 else:
-                	temp2 = ValueInvesting((money / 2.0))
-                	result = {key:(temp1[key], temp2[key]) for key in temp1}
+                	result.setdefault('strategies', []).append(ValueInvesting(money / 2.0))
         resp = make_response(jsonify(result))
         resp.headers['Access-Control-Allow-Origin'] = '*'
     	return resp
